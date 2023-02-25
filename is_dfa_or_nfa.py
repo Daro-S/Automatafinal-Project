@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # Add the states to the graph
     for state in states:
         if state == start_state:
-            dot.node(state, shape='doublecircle')
+             dot.edge('', start_state, arrowhead='vee', style='normal')
         elif state in accept_states:
             dot.node(state, shape='doublecircle')
         else:
