@@ -27,6 +27,27 @@ def is_dfa(states, alphabet, transition, start_state, accept_states):
 
     return all(state in seen for state in accept_states)
 
+def is_accepted(states, alphabet, transition, start_state, accept_states, input_string):
+    # Check if the input string is composed only of symbols in the alphabet
+    if not all(symbol in alphabet for symbol in input_string):
+        return False
+
+    # Simulate the automaton on the input string
+    current_states = {start_state}
+    for symbol in input_string:
+        next_states = set()
+        for state in current_states:
+            # Get the set of all possible next states for this state and symbol
+            next_states_for_state = transition.get((state, symbol))
+            if next_states_for_state is not None:
+                next_states |= next_states_for_state
+        # Update the set of current states to be the union of all next states
+        current_states = next_states
+    
+    # Check if any of the final states are accept states
+    return any(state in accept_states for state in current_states)
+
+
 
 if __name__ == '__main__':
     # Input the transaction table as a list of tuples
@@ -70,7 +91,7 @@ if __name__ == '__main__':
     # Add the states to the graph
     for state in states:
         if state == start_state:
-             dot.edge('', start_state, arrowhead='vee', style='normal')
+             dot.edge('', start_state, arrowhead='vee', style='solid')
         elif state in accept_states:
             dot.node(state, shape='doublecircle')
         else:
@@ -82,3 +103,18 @@ if __name__ == '__main__':
 
     # Render the graph
     dot.render('automaton.gv', view=True)
+
+    while True:
+        # Prompt the user to enter a string to test
+        input_string = input("Enter a string to test (or type 'exit' to quit): ")
+         # Check if the user wants to exit
+        if input_string == 'exit':
+            break
+
+        # Check if the input string is accepted by the FA
+        if is_accepted(states, alphabet, transition_dict, start_state, accept_states, input_string):
+            print("The input string is accepted by the FA.")
+        else:
+            print("The input string is not accepted by the FA.")
+
+
