@@ -76,7 +76,9 @@ if __name__ == '__main__':
     accept_states = input("Enter the accept states (comma separated): ").split(",")
 
     # Convert transaction table to dictionary
-    transition_dict = {(t[0], t[1]): t[2] for t in transaction}
+    transition_dict = {}
+    for t in transaction:
+        transition_dict.setdefault((t[0], t[1]), set()).add(t[2])
 
     # Check if given FA is a DFA
     if is_dfa(states, alphabet, transition_dict, start_state, accept_states):
