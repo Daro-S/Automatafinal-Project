@@ -1,6 +1,7 @@
-from is_dfa_or_nfa import is_dfa_or_nfa, is_accepted
+from is_dfa_or_nfa import is_dfa_or_nfa
 from read_input import get_transitions, extract_states_and_alphabet, get_start_and_accept_states, convert_transitions_to_dict
 from graph import visualize_automaton
+from is_accept_string import is_accepted
 
 if __name__ == '__main__':
     transitions = get_transitions()
