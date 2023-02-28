@@ -1,30 +1,43 @@
-def is_dfa(states, alphabet, transition, start_state, accept_states):
 
-    # Check if all state-symbol pairs have transitions defined in the transition table
+def is_dfa_or_nfa(states, alphabet, transition, start_state, accept_states):
+    is_dfa = True
 
-    if not all((state, symbol) in transition for state in states for symbol in alphabet):
-        return False
-    
-      # Perform a breadth-first search to check if all states can be reached from the start state
-    # without encountering an empty transition (i.e., the automaton is not an NFA)
-
-    seen = set()
-    queue = [start_state]
-    while queue:
-        current_state = queue.pop(0)
-        seen.add(current_state)
+    # Check if every state has at most one transition for each input symbol
+    for state in states:
         for symbol in alphabet:
-            next_state = transition.get((current_state, symbol))
-            if next_state is None or next_state not in states:
-                return False
-            if next_state not in seen:
-                queue.append(next_state)
-    
-    # Check if all accept states were reached during the search
+            if len(transition.get((state, symbol), [])) != 1:
+                is_dfa = False
 
-    return all(state in seen for state in accept_states)
+    # Check if there is an ε-transition or empty string transition
+    for state in states:
+        if transition.get((state, 'ε'), []) != []:
+            is_dfa = False
 
-def is_accepted(states, alphabet, transition, start_state, accept_states, input_string):
+    # Check if there are multiple transitions on the same symbol that lead to different states
+    for state in states:
+        for symbol in alphabet:
+            next_states = transition.get((state, symbol), [])
+            if len(next_states) > 1 and not is_dfa:
+                is_dfa = False
+
+    # Check if the number of transitions equals the number of states times the number of symbols
+    num_transitions = sum(len(transition.get((state, symbol), [])) for state in states for symbol in alphabet)
+    if num_transitions != len(states) * len(alphabet):
+        is_dfa = False
+
+    # Check if each state has the same number of transitions as the number of symbols in the alphabet
+    for state in states:
+        num_state_transitions = sum(len(transition.get((state, symbol), [])) for symbol in alphabet)
+        if num_state_transitions != len(alphabet):
+            is_dfa = False
+
+    if is_dfa:
+        return "DFA"
+    else:
+        return "NFA"
+
+
+def is_accepted(alphabet, transition, start_state, accept_states, input_string):
     # Check if the input string is composed only of symbols in the alphabet
     if not all(symbol in alphabet for symbol in input_string):
         return False
