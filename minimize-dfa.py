@@ -10,8 +10,8 @@ class DFA:
         self.accepting_states = set(accepting_states)
         self.start_state = start_state
 
-
 def minimize_dfa(dfa):
+    
     # Step 1: Initialize the partition as the accepting and non-accepting states
     partition = [dfa.accepting_states, dfa.states - dfa.accepting_states]
     print(f"Partition 0: {partition}")
@@ -39,10 +39,13 @@ def minimize_dfa(dfa):
                 new_partition.append(subgroup)
                 if len(subgroup) < len(group):
                     partition_changed = True
+        prev_partition = partition
         partition = new_partition
         print(f"Partition {step}: {partition}")
         step += 1
-
+        if partition == prev_partition:
+            print("Since current and previous partition are the same, we stop.")
+            break
     # Step 3: Build the new DFA using the partition as the states
     new_states = []
     new_accepting_states = set()
@@ -121,7 +124,7 @@ print("Start state:", dfa.start_state)
 
 # Minimize the DFA
 min_dfa = minimize_dfa(dfa)
-print("---------------------")
+print("---------------------------------------------")
 # Print the minimized DFA
 print("Minimized DFA:")
 print("States:", min_dfa.states)
