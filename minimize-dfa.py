@@ -12,20 +12,13 @@ class DFA:
 
 
 def minimize_dfa(dfa):
-    # Step 1: Partition the states into accepting and non-accepting states
-    accepting_states = set()
-    non_accepting_states = set()
-    for state in dfa.states:
-        if state in dfa.accepting_states:
-            accepting_states.add(state)
-        else:
-            non_accepting_states.add(state)
-
-    # Step 2: Initialize the partition as the accepting and non-accepting states
-    partition = [accepting_states, non_accepting_states]
+    # Step 1: Initialize the partition as the accepting and non-accepting states
+    partition = [dfa.accepting_states, dfa.states - dfa.accepting_states]
+    print(f"Partition 0: {partition}")
     partition_changed = True
+    step = 1
 
-    # Step 3: Repeat until the partition no longer changes
+    # Step 2: Repeat until the partition no longer changes
     while partition_changed:
         partition_changed = False
         new_partition = []
@@ -33,7 +26,7 @@ def minimize_dfa(dfa):
             if len(group) <= 1:
                 new_partition.append(group)
                 continue
-            # Step 3a: Divide each group into subgroups based on transitions
+            # Step 2a: Divide each group into subgroups based on transitions
             subgroups = {}
             for state in group:
                 transitions = dfa.transitions[state]
@@ -41,14 +34,16 @@ def minimize_dfa(dfa):
                 if subgroup_key not in subgroups:
                     subgroups[subgroup_key] = set()
                 subgroups[subgroup_key].add(state)
-            # Step 3b: Add the subgroups to the new partition
+            # Step 2b: Add the subgroups to the new partition
             for subgroup in subgroups.values():
                 new_partition.append(subgroup)
                 if len(subgroup) < len(group):
                     partition_changed = True
         partition = new_partition
+        print(f"Partition {step}: {partition}")
+        step += 1
 
-    # Step 4: Build the new DFA using the partition as the states
+    # Step 3: Build the new DFA using the partition as the states
     new_states = []
     new_accepting_states = set()
     new_transitions = {}
@@ -121,7 +116,6 @@ print("States:", dfa.states)
 print("Alphabet:", dfa.alphabet)
 print("Transitions:")
 print_transitions_table(dfa)
-# print("Transitions:", dfa.transitions)
 print("Accepting states:", dfa.accepting_states)
 print("Start state:", dfa.start_state)
 
@@ -134,6 +128,5 @@ print("States:", min_dfa.states)
 print("Alphabet:", min_dfa.alphabet)
 print("Transitions:")
 print_transitions_table(min_dfa)
-# print("Transitions:", min_dfa.transitions)
 print("Accepting states:", min_dfa.accepting_states)
 print("Start state:", min_dfa.start_state)
