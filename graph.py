@@ -28,7 +28,7 @@ def original_graph(fa, fa_filename):
     graph.render(view=True)
 
 
-def minimized_dfa_visualization(fa: FA, fa_filename):
+def new_graph(fa: FA, fa_filename):
     """Visualize the automaton using graphviz."""
     graph = Digraph('Automaton', filename=f'AutomatonGraph/{fa_filename}.gv', format='png')
     for state in fa.states:
