@@ -1,4 +1,5 @@
-def is_accepted(dfa, input_string):
+from FA import FA
+def is_accepted(dfa: FA, input_string):
     # Check if the input string is composed only of symbols in the alphabet
     if not all(symbol in dfa.alphabet for symbol in input_string):
         return False

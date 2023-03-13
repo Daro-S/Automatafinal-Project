@@ -1,4 +1,5 @@
-def is_dfa_or_nfa(fa):
+from FA import FA
+def is_dfa_or_nfa(fa: FA):
     is_dfa = True
     # Check if every state has at most one transition for each input symbol
     for state in fa.states:
