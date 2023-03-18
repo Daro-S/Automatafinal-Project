@@ -66,3 +66,4 @@ def minimize_dfa(dfa: FA):
     new_initial_state = new_states[0]
     
     return FA(new_states, dfa.alphabet, new_transitions, new_accepting_states, new_initial_state)
+

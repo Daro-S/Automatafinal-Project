@@ -4,6 +4,7 @@ from graph import original_graph
 from main_menu_helper import test_accept_string, equivalent_dfa_wrapper, minimize_dfa_wrapper
 from FA import FA
 
+
 if __name__ == '__main__':
     transitions = get_transitions()
     states, alphabet = extract_states_and_alphabet(transitions)
@@ -21,6 +22,7 @@ if __name__ == '__main__':
     original_graph(fa,fa_filename="FA_graph")
     
     while True:
+        print("\n----------------------------\n")
         print("Select an option:")
         print("1. Test accept string")
         if is_dfa_or_nfa(fa) == "DFA":
@@ -28,7 +30,7 @@ if __name__ == '__main__':
         elif is_dfa_or_nfa(fa) == "NFA":
             print("3. Find equivalent DFA")
         print("4. Exit")
-
+        print("\n----------------------------\n")
         option = input("Enter option number: ")
 
         if option == "1":
@@ -38,6 +40,8 @@ if __name__ == '__main__':
         elif option == "3":
             equivalent_dfa_wrapper(fa)
         elif option == "4":
+            
             break
+            
         else:
             print("Invalid option.")

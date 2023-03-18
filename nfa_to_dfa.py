@@ -1,12 +1,5 @@
 from typing import Set
-
-class FA:
-    def __init__(self, states, alphabet, transitions, accept_states: Set[str], start_state):
-        self.states = set(states)
-        self.alphabet = set(alphabet)
-        self.transitions = dict(transitions)
-        self.accept_states = set(accept_states)
-        self.start_state = str(start_state)
+from FA import FA
 
 
 def epsilon_closure(nfa: FA, states: Set[str]) -> Set[str]:
@@ -19,7 +12,6 @@ def epsilon_closure(nfa: FA, states: Set[str]) -> Set[str]:
                 closure.add(next_state)
                 stack.append(next_state)
     return frozenset(closure)
-
 
 def nfa_to_dfa(nfa: FA):
     states = []
