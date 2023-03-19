@@ -11,6 +11,10 @@ def is_dfa_or_nfa(fa: FA):
     for state in fa.states:
         if fa.transitions.get((state, 'ε'), []) != []:
             is_dfa = False
+        if fa.transitions.get((state, 'eps'), []) != []:
+            is_dfa = False
+        if fa.transitions.get((state, ''), []) != []:
+            is_dfa = False
 
     # Check if there are multiple transitions on the same symbol that lead to different states
     for state in fa.states:

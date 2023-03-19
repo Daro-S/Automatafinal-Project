@@ -29,7 +29,8 @@ if __name__ == '__main__':
             print("2. Minimize DFA")
         elif is_dfa_or_nfa(fa) == "NFA":
             print("3. Find equivalent DFA")
-        print("4. Exit")
+        print ("4. Input new FA")
+        print("5. Exit")
         print("\n----------------------------\n")
         option = input("Enter option number: ")
 
@@ -40,8 +41,17 @@ if __name__ == '__main__':
         elif option == "3":
             equivalent_dfa_wrapper(fa)
         elif option == "4":
-            
+            transitions = get_transitions()
+            states, alphabet = extract_states_and_alphabet(transitions)
+            start_state, accept_states = get_start_and_accept_states()
+            transition_dict = convert_transitions_to_dict(transitions)
+            fa = FA(states, alphabet, transition_dict, accept_states, start_state)
+            if is_dfa_or_nfa(fa) == "DFA":
+                print("The given FA is a DFA.")
+            else:
+                print("The given FA is NFA.")
+            original_graph(fa,fa_filename="FA_graph")
+        elif option == "5":
             break
-            
         else:
             print("Invalid option.")

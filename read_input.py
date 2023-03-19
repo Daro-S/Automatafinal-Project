@@ -37,3 +37,4 @@ def convert_transitions_to_dict(transitions):
     for state1, symbol, state2 in transitions:
         transition_dict.setdefault((state1, symbol), set()).add(state2)
     return transition_dict
+
