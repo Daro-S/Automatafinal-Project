@@ -1,7 +1,7 @@
 from typing import Set
 from FA import FA
 
-
+# This function computes the epsilon closure of a set of states in a given NFA
 def epsilon_closure(nfa: FA, states: Set[str]) -> Set[str]:
     closure = set(states)
     stack = list(states)
@@ -27,6 +27,8 @@ def nfa_to_dfa(nfa: FA):
     state_map[start_closure] = start_state
     states.append(start_state)
 
+    # This step generates the next set of states and corresponding transitions
+    #  for each symbol in the alphabet, and adds them to the DFA.
     while unmarked_states:
         current_states = unmarked_states.pop(0)
 
